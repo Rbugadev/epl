@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03" xmlns:orchestrateur.afcepf.fr="http://orchestrateur.afcepf.fr" xmlns:wsaddition.afcepf.fr="http://wsaddition.afcepf.fr" xmlns:wsdivision.afcepf.fr="http://wsdivision.afcepf.fr" xmlns:wsmultiplication.afcepf.fr="http://wsmultiplication.afcepf.fr">
+  <process name="orchestrateur.afcepf.fr:CalculProcess">
+    <active>true</active>
+    <retired>false</retired>
+    <process-events generate="all"/>
+    <provide partnerLink="client">
+      <service name="orchestrateur.afcepf.fr:CalculProcessService" port="CalculProcessPort"/>
+    </provide>
+    <invoke partnerLink="PartnerLinkAddition">
+      <service name="wsaddition.afcepf.fr:WSAdditionService" port="WSAdditionPort"/>
+    </invoke>
+    <invoke partnerLink="PartnerLinkDivision">
+      <service name="wsdivision.afcepf.fr:WSDivisionService" port="WSDivisionPort"/>
+    </invoke>
+    <invoke partnerLink="PartnerLinkMultiplication">
+      <service name="wsmultiplication.afcepf.fr:WSMultiplicationService" port="WSMultiplicationPort"/>
+    </invoke>
+  </process>
+</deploy>

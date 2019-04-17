@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://orchestrateur.afcepf.fr" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://wsaddition.afcepf.fr" xmlns:wsdl1="http://wsdivision.afcepf.fr" xmlns:wsdl2="http://wsmultiplication.afcepf.fr" name="CalculProcess" targetNamespace="http://orchestrateur.afcepf.fr">
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     TYPE DEFINITION - List of types participating in this BPEL process 
+     The BPEL Designer will generate default request and response types
+     but you can define or import any XML Schema type and use them as part 
+     of the message types.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="Addition">
+    <plnk:role name="additionner" portType="wsdl:IWSAddition"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="Division">
+    <plnk:role name="diviser" portType="wsdl1:IWSDivision"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="Multiplication">
+    <plnk:role name="multiplier" portType="wsdl2:IWSMultiplication"/>
+  </plnk:partnerLinkType>
+    <import location="WSAddition.wsdl" namespace="http://wsaddition.afcepf.fr"/>
+    <import location="WSDivision.wsdl" namespace="http://wsdivision.afcepf.fr"/>
+    <import location="WSMultiplication.wsdl" namespace="http://wsmultiplication.afcepf.fr"/>
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://orchestrateur.afcepf.fr">
+
+            <element name="CalculProcessRequest">
+                <complexType>
+                    <sequence>
+                    	<element name="paramA" type="int"/>
+                    	<element name="paramB" type="int"/>
+                    	<element name="paramX" type="int"/>
+                    	<element name="paramY" type="int"/>
+                    </sequence>
+                </complexType>
+            </element>
+
+            <element name="CalculProcessResponse">
+                <complexType>
+                    <sequence>
+                    	<element name="commentaire" type="string"/>
+                    	<element name="result" type="int"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </types>
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     MESSAGE TYPE DEFINITION - Definition of the message types used as 
+     part of the port type defintions
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <message name="CalculProcessRequestMessage">
+        <part element="tns:CalculProcessRequest" name="payload"/>
+    </message>
+    <message name="CalculProcessResponseMessage">
+        <part element="tns:CalculProcessResponse" name="payload"/>
+    </message>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PORT TYPE DEFINITION - A port type groups a set of operations into
+     a logical service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+
+    <!-- portType implemented by the CalculProcess BPEL process -->
+    <portType name="CalculProcess">
+        <operation name="process">
+            <input message="tns:CalculProcessRequestMessage"/>
+            <output message="tns:CalculProcessResponseMessage"/>
+        </operation>
+    </portType>   
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     PARTNER LINK TYPE DEFINITION
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->    
+    <plnk:partnerLinkType name="CalculProcess">
+        <plnk:role name="CalculProcessProvider" portType="tns:CalculProcess"/>
+    </plnk:partnerLinkType>
+    
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     BINDING DEFINITION - Defines the message format and protocol details
+     for a web service.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <binding name="CalculProcessBinding" type="tns:CalculProcess">
+    	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    	<operation name="process">
+    		<soap:operation soapAction="http://orchestrateur.afcepf.fr/process"/>
+    		<input>
+    			<soap:body use="literal"/>
+    		</input>
+    		<output>
+    			<soap:body use="literal"/>
+    		</output>
+    	</operation>
+    </binding>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     SERVICE DEFINITION - A service groups a set of ports into
+     a service unit.
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <service name="CalculProcessService">
+    	<port binding="tns:CalculProcessBinding" name="CalculProcessPort">
+    		<soap:address location="http://localhost:8083/ode/processes/CalculProcess"/>
+    	</port>
+    </service>
+</definitions>

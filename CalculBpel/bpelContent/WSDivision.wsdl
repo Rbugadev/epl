@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://wsdivision.afcepf.fr" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="WSDivisionService" targetNamespace="http://wsdivision.afcepf.fr">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://wsdivision.afcepf.fr" elementFormDefault="unqualified" targetNamespace="http://wsdivision.afcepf.fr" version="1.0">
+
+  <xs:element name="diviser" type="tns:diviser"/>
+
+  <xs:element name="diviserResponse" type="tns:diviserResponse"/>
+
+  <xs:complexType name="diviser">
+    <xs:sequence>
+      <xs:element name="paramDiviseur" type="xs:int"/>
+      <xs:element name="paramDividende" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="diviserResponse">
+    <xs:sequence>
+      <xs:element name="resultatDivision" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="diviser">
+    <wsdl:part element="tns:diviser" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="diviserResponse">
+    <wsdl:part element="tns:diviserResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IWSDivision">
+    <wsdl:operation name="diviser">
+      <wsdl:input message="tns:diviser" name="diviser">
+    </wsdl:input>
+      <wsdl:output message="tns:diviserResponse" name="diviserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSDivisionServiceSoapBinding" type="tns:IWSDivision">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="diviser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="diviser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="diviserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSDivisionService">
+    <wsdl:port binding="tns:WSDivisionServiceSoapBinding" name="WSDivisionPort">
+      <soap:address location="http://localhost:7979/WSDivision/WSDivision"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://wsmultiplication.afcepf.fr" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="WSMultiplicationService" targetNamespace="http://wsmultiplication.afcepf.fr">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://wsmultiplication.afcepf.fr" elementFormDefault="unqualified" targetNamespace="http://wsmultiplication.afcepf.fr" version="1.0">
+
+  <xs:element name="multiplier" type="tns:multiplier"/>
+
+  <xs:element name="multiplierResponse" type="tns:multiplierResponse"/>
+
+  <xs:complexType name="multiplier">
+    <xs:sequence>
+      <xs:element name="facteurX" type="xs:int"/>
+      <xs:element name="facteurY" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="multiplierResponse">
+    <xs:sequence>
+      <xs:element name="resultatMultiplication" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="multiplier">
+    <wsdl:part element="tns:multiplier" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="multiplierResponse">
+    <wsdl:part element="tns:multiplierResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IWSMultiplication">
+    <wsdl:operation name="multiplier">
+      <wsdl:input message="tns:multiplier" name="multiplier">
+    </wsdl:input>
+      <wsdl:output message="tns:multiplierResponse" name="multiplierResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSMultiplicationServiceSoapBinding" type="tns:IWSMultiplication">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="multiplier">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="multiplier">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="multiplierResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSMultiplicationService">
+    <wsdl:port binding="tns:WSMultiplicationServiceSoapBinding" name="WSMultiplicationPort">
+      <soap:address location="http://localhost:7979/WSMultiplication/WSMultiplication"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://wsaddition.afcepf.fr" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="WSAdditionService" targetNamespace="http://wsaddition.afcepf.fr">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://wsaddition.afcepf.fr" elementFormDefault="unqualified" targetNamespace="http://wsaddition.afcepf.fr" version="1.0">
+
+  <xs:element name="additionner" type="tns:additionner"/>
+
+  <xs:element name="additionnerResponse" type="tns:additionnerResponse"/>
+
+  <xs:complexType name="additionner">
+    <xs:sequence>
+      <xs:element name="paramA" type="xs:int"/>
+      <xs:element name="paramB" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="additionnerResponse">
+    <xs:sequence>
+      <xs:element name="resultatAddition" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="additionnerResponse">
+    <wsdl:part element="tns:additionnerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="additionner">
+    <wsdl:part element="tns:additionner" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IWSAddition">
+    <wsdl:operation name="additionner">
+      <wsdl:input message="tns:additionner" name="additionner">
+    </wsdl:input>
+      <wsdl:output message="tns:additionnerResponse" name="additionnerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSAdditionServiceSoapBinding" type="tns:IWSAddition">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="additionner">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="additionner">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="additionnerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSAdditionService">
+    <wsdl:port binding="tns:WSAdditionServiceSoapBinding" name="WSAdditionPort">
+      <soap:address location="http://localhost:7979/WSAddition/WSAddition"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
